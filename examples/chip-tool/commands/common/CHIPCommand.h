@@ -22,6 +22,8 @@
 
 #include "../../config/PersistentStorage.h"
 #include "Command.h"
+#include <commands/common/CredentialIssuerCommands.h>
+#include <commands/example/ExampleCredentialIssuerCommands.h>
 
 #pragma once
 
@@ -41,7 +43,19 @@ public:
     using NodeId                 = ::chip::NodeId;
     using PeerAddress            = ::chip::Transport::PeerAddress;
 
-    CHIPCommand(const char * commandName) : Command(commandName) { AddArgument("commissioner-name", &mCommissionerName); }
+    CHIPCommand(const char * commandName, CredentialIssuerCommands * credIssuerCmds = nullptr) : Command(commandName)
+    {
+        AddArgument("commissioner-name", &mCommissionerName);
+
+        if (credIssuerCmds == nullptr)
+        {
+            mCredIssuerCmds = &mExampleCredentialIssuerCmds;
+        }
+        else
+        {
+            mCredIssuerCmds = credIssuerCmds;
+        }
+    }
 
     /////////// Command Interface /////////
     CHIP_ERROR Run() override;
