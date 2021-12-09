@@ -107,7 +107,7 @@ if [[ "$APP" == "bootloader" ]]; then
 
     # Install mcuboot requirements (silently)
     pip install -q -r "$MBED_MCU_BOOT_PATH"/scripts/requirements.txt ||
-        fail "Unable to install mcuboot requirements" "Please take a look at "$MBED_MCU_BOOT_PATH"/scripts/requirements.txt"
+        fail "Unable to install mcuboot requirements" "Please take a look at ""$MBED_MCU_BOOT_PATH/scripts/requirements.txt"
 
     # Run mcuboot setup script
     python "$MBED_MCU_BOOT_PATH"/scripts/setup.py install ||
