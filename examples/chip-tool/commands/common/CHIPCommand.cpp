@@ -127,7 +127,11 @@ CHIP_ERROR CHIPCommand::InitializeCommissioner(std::string key, chip::FabricId f
     chip::Platform::ScopedMemoryBuffer<uint8_t> icac;
     chip::Platform::ScopedMemoryBuffer<uint8_t> rcac;
 
-    ReturnLogErrorOnFailure(mCredIssuerCmds->SetupDeviceAttestation());
+    std::unique_ptr<ChipDeviceCommissioner> commissioner = std::make_unique<ChipDeviceCommissioner>();
+    chip::Controller::SetupParams commissionerParams;
+
+    ReturnLogErrorOnFailure(mCredIssuerCmds->SetupDeviceAttestation(commissionerParams));
+    chip::Credentials::SetDeviceAttestationVerifier(commissionerParams.deviceAttestationVerifier);
 
     VerifyOrReturnError(noc.Alloc(chip::Controller::kMaxCHIPDERCertLength), CHIP_ERROR_NO_MEMORY);
     VerifyOrReturnError(icac.Alloc(chip::Controller::kMaxCHIPDERCertLength), CHIP_ERROR_NO_MEMORY);
@@ -148,8 +152,6 @@ CHIP_ERROR CHIPCommand::InitializeCommissioner(std::string key, chip::FabricId f
     ReturnLogErrorOnFailure(mCredIssuerCmds->GenerateControllerNOCChain(mCommissionerStorage.GetLocalNodeId(), fabricId,
                                                                         ephemeralKey, rcacSpan, icacSpan, nocSpan));
 
-    std::unique_ptr<ChipDeviceCommissioner> commissioner = std::make_unique<ChipDeviceCommissioner>();
-    chip::Controller::SetupParams commissionerParams;
     commissionerParams.storageDelegate                = &mCommissionerStorage;
     commissionerParams.operationalCredentialsDelegate = mCredIssuerCmds->GetCredentialIssuer();
     commissionerParams.ephemeralKeypair               = &ephemeralKey;

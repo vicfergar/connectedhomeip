@@ -41,18 +41,15 @@ public:
     using NodeId                 = ::chip::NodeId;
     using PeerAddress            = ::chip::Transport::PeerAddress;
 
-    CHIPCommand(const char * commandName, CredentialIssuerCommands * credIssuerCmds = nullptr) : Command(commandName)
+    CHIPCommand(const char * commandName) : Command(commandName), mCredIssuerCmds(&mExampleCredentialIssuerCmds)
     {
         AddArgument("commissioner-name", &mCommissionerName);
+    }
 
-        if (credIssuerCmds == nullptr)
-        {
-            mCredIssuerCmds = &mExampleCredentialIssuerCmds;
-        }
-        else
-        {
-            mCredIssuerCmds = credIssuerCmds;
-        }
+    CHIPCommand(const char * commandName, CredentialIssuerCommands * credIssuerCmds) :
+        Command(commandName), mCredIssuerCmds(credIssuerCmds)
+    {
+        AddArgument("commissioner-name", &mCommissionerName);
     }
 
     /////////// Command Interface /////////
@@ -83,6 +80,8 @@ protected:
     PersistentStorage mDefaultStorage;
     PersistentStorage mCommissionerStorage;
     chip::SimpleFabricStorage mFabricStorage;
+    ExampleCredentialIssuerCommands mExampleCredentialIssuerCmds;
+    CredentialIssuerCommands * mCredIssuerCmds;
 
     std::string GetIdentity();
     void SetIdentity(const char * name);
@@ -102,8 +101,6 @@ private:
     static void RunQueuedCommand(intptr_t commandArg);
 
     CHIP_ERROR mCommandExitStatus = CHIP_ERROR_INTERNAL;
-    ExampleCredentialIssuerCommands mExampleCredentialIssuerCmds;
-    CredentialIssuerCommands * mCredIssuerCmds;
 
     CHIP_ERROR StartWaiting(chip::System::Clock::Timeout seconds);
     void StopWaiting();

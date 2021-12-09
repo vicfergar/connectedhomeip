@@ -33,6 +33,7 @@
 #include <app/util/basic-types.h>
 #include <controller-clusters/zap-generated/CHIPClientCallbacks.h>
 #include <controller/CHIPDeviceControllerSystemState.h>
+#include <controller/OperationalCredentialsDelegate.h>
 #include <lib/core/CHIPCallback.h>
 #include <lib/core/CHIPCore.h>
 #include <lib/support/DLLUtil.h>
@@ -53,7 +54,6 @@
 
 namespace chip {
 
-constexpr size_t kOpCSRNonceLength       = 32;
 constexpr size_t kAttestationNonceLength = 32;
 
 using DeviceIPTransportMgr = TransportMgr<Transport::UDP /* IPv6 */
@@ -237,7 +237,6 @@ public:
     }
 
     ByteSpan GetCSRNonce() const { return ByteSpan(mCSRNonce, sizeof(mCSRNonce)); }
-    MutableByteSpan GetCSRNonce() { return MutableByteSpan(mCSRNonce, sizeof(mCSRNonce)); }
 
     CHIP_ERROR SetAttestationNonce(ByteSpan attestationNonce)
     {
@@ -335,7 +334,7 @@ private:
     FabricIndex mFabricIndex = kUndefinedFabricIndex;
 
     // TODO: Offload Nonces and DAC/PAI into a new struct
-    uint8_t mCSRNonce[kOpCSRNonceLength];
+    uint8_t mCSRNonce[Controller::kOpCSRNonceLength];
     uint8_t mAttestationNonce[kAttestationNonceLength];
 
     uint8_t * mDAC   = nullptr;
