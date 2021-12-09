@@ -32,13 +32,13 @@ public:
     {
         return mOpCredsIssuer.Initialize(storage);
     }
-    CHIP_ERROR SetupDeviceAttestation() override
+    CHIP_ERROR SetupDeviceAttestation(chip::Controller::SetupParams & setupParams) override
     {
         chip::Credentials::SetDeviceAttestationCredentialsProvider(chip::Credentials::Examples::GetExampleDACProvider());
 
         // TODO: Replace testingRootStore with a AttestationTrustStore that has the necessary official PAA roots available
         const chip::Credentials::AttestationTrustStore * testingRootStore = chip::Credentials::GetTestAttestationTrustStore();
-        chip::Credentials::SetDeviceAttestationVerifier(chip::Credentials::GetDefaultDACVerifier(testingRootStore));
+        setupParams.deviceAttestationVerifier = chip::Credentials::GetDefaultDACVerifier(testingRootStore);
 
         return CHIP_NO_ERROR;
     }

@@ -18,8 +18,6 @@
 
 #pragma once
 
-#include <controller/ExampleOperationalCredentialsIssuer.h>
-
 #include "../../config/PersistentStorage.h"
 #include "Command.h"
 #include <commands/common/CredentialIssuerCommands.h>
@@ -43,18 +41,15 @@ public:
     using NodeId                 = ::chip::NodeId;
     using PeerAddress            = ::chip::Transport::PeerAddress;
 
-    CHIPCommand(const char * commandName, CredentialIssuerCommands * credIssuerCmds = nullptr) : Command(commandName)
+    CHIPCommand(const char * commandName) : Command(commandName), mCredIssuerCmds(&mExampleCredentialIssuerCmds)
     {
         AddArgument("commissioner-name", &mCommissionerName);
+    }
 
-        if (credIssuerCmds == nullptr)
-        {
-            mCredIssuerCmds = &mExampleCredentialIssuerCmds;
-        }
-        else
-        {
-            mCredIssuerCmds = credIssuerCmds;
-        }
+    CHIPCommand(const char * commandName, CredentialIssuerCommands * credIssuerCmds) :
+        Command(commandName), mCredIssuerCmds(credIssuerCmds)
+    {
+        AddArgument("commissioner-name", &mCommissionerName);
     }
 
     /////////// Command Interface /////////
@@ -85,7 +80,8 @@ protected:
     PersistentStorage mDefaultStorage;
     PersistentStorage mCommissionerStorage;
     chip::SimpleFabricStorage mFabricStorage;
-    chip::Controller::ExampleOperationalCredentialsIssuer mOpCredsIssuer;
+    ExampleCredentialIssuerCommands mExampleCredentialIssuerCmds;
+    CredentialIssuerCommands * mCredIssuerCmds;
 
     std::string GetIdentity();
     void SetIdentity(const char * name);

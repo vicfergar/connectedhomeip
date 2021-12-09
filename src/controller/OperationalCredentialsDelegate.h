@@ -33,6 +33,7 @@ typedef void (*OnNOCChainGeneration)(void * context, CHIP_ERROR status, const By
                                      const ByteSpan & rcac);
 
 constexpr uint32_t kMaxCHIPDERCertLength = 600;
+constexpr size_t kOpCSRNonceLength       = 32;
 
 /// Callbacks for CHIP operational credentials generation
 class DLL_EXPORT OperationalCredentialsDelegate
@@ -77,8 +78,9 @@ public:
      */
     virtual void SetFabricIdForNextNOCRequest(FabricId fabricId) {}
 
-    virtual CHIP_ERROR GenerateNOCSR(MutableByteSpan & csrNonce)
+    virtual CHIP_ERROR ObtainCsrNonce(MutableByteSpan & csrNonce)
     {
+        VerifyOrReturnError(csrNonce.size() == kOpCSRNonceLength, CHIP_ERROR_INVALID_ARGUMENT);
         ReturnErrorOnFailure(Crypto::DRBG_get_bytes(csrNonce.data(), csrNonce.size()));
         return CHIP_NO_ERROR;
     }
