@@ -51,8 +51,7 @@ void StartDefaultThreadNetwork(void)
     chip::DeviceLayer::ThreadStackMgr().SetThreadEnabled(true);
 }
 
-__attribute__((format_arg(2)))
-void tlOtPlatLog(otLogLevel aLogLevel, otLogRegion aLogRegion, const char * aFormat, ...)
+__attribute__((format_arg(2))) void tlOtPlatLog(otLogLevel aLogLevel, otLogRegion aLogRegion, const char * aFormat, ...)
 {
     va_list args;
 

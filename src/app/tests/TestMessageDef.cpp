@@ -46,8 +46,7 @@ namespace {
 
 using namespace chip::app;
 
-__attribute__((format_arg(1)))
-void TLVPrettyPrinter(const char * aFormat, ...)
+__attribute__((format_arg(1))) void TLVPrettyPrinter(const char * aFormat, ...)
 {
     va_list args;
 

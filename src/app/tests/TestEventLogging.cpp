@@ -89,8 +89,7 @@ public:
     }
 };
 
-__attribute__((format_arg(1)))
-void SimpleDumpWriter(const char * aFormat, ...)
+__attribute__((format_arg(1))) void SimpleDumpWriter(const char * aFormat, ...)
 {
     va_list args;
 
