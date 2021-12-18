@@ -46,5 +46,5 @@ jobs:
                     --github-limit-artifact-pages 50 \
                     --github-limit-artifacts 500 \
                     --github-limit-comments 20 \
-                    --github-repository project-chip/connectedhomeip \
+                    --github-repository vicfergar/connectedhomeip \
                     --github-api-token "${{ secrets.GITHUB_TOKEN }}"

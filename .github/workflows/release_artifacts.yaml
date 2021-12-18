@@ -54,7 +54,7 @@ jobs:
             - name: Upload artifact
               run: |
                   scripts/helpers/upload_release_asset.py                  \
-                     --github-repository project-chip/connectedhomeip      \
+                     --github-repository vicfergar/connectedhomeip      \
                      --github-api-token "${{ secrets.GITHUB_TOKEN }}"      \
                      --release-tag "${{ github.event.inputs.releaseTag }}" \
                      --bundle-files $BUILD_DIRECTORY/chip-all-clusters-app.flashbundle.txt \
@@ -96,7 +96,7 @@ jobs:
             - name: Upload artifact
               run: |
                   scripts/helpers/upload_release_asset.py                     \
-                     --github-repository project-chip/connectedhomeip         \
+                     --github-repository vicfergar/connectedhomeip         \
                      --github-api-token "${{ secrets.GITHUB_TOKEN }}"         \
                      --release-tag "${{ github.event.inputs.releaseTag }}"    \
                      --bundle-files $BUILD_DIRECTORY/lock_app.flashbundle.txt \

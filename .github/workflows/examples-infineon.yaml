@@ -15,8 +15,8 @@
 name: Build example - Infineon P6
 
 on:
-    push:
-    pull_request:
+    #push:
+    #pull_request:
     workflow_dispatch:
 
 concurrency:

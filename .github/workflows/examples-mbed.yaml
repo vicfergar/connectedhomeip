@@ -15,8 +15,8 @@
 name: Build example - Mbed OS
 
 on:
-    push:
-    pull_request:
+    #push:
+    #pull_request:
     workflow_dispatch:
 
 concurrency:

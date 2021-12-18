@@ -15,8 +15,8 @@
 name: Darwin
 
 on:
-    push:
-    pull_request:
+    #push:
+    #pull_request:
     workflow_dispatch:
 
 concurrency:
@@ -78,7 +78,7 @@ jobs:
               # for OTHER_CFLAGS exist by using ${inherited}.
               #
               # Disable -Wdocumentation because so much of our doxygen is so
-              # broken.  See https://github.com/project-chip/connectedhomeip/issues/6734
+              # broken.  See https://github.com/vicfergar/connectedhomeip/issues/6734
               #
               # Disable -Wconditional-uninitialized because the generated IM TLV
               # code hits this all over the place.
